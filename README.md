@@ -1,0 +1,2 @@
+# Udacity_Customer-Segmentation
+Analysis of demographics data for customers of a mail-order sales company in Germany, incl. the comparison of it against demographics information for the general population. The goal was to identify the parts of the population that best describe the core customer base of the company. The model was then applied on a third dataset with demographics information for targets of a marketing campaign for the company (incl. the prediction which individuals are most likely to convert into becoming customers for the company).
