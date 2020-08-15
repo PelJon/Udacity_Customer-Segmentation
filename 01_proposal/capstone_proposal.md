@@ -93,9 +93,18 @@ consistency. He also proved an an impossibility theorem that shows that no clust
   TP = True Positives; FP = False Positives; FN = False Negatives
  
 ### Project Design
-_(approx. 1 page)_
 
-In this final section, summarize a theoretical workflow for approaching a solution given the problem. Provide thorough discussion for what strategies you may consider employing, what analysis of the data might be required before being used, or which algorithms will be considered for your implementation. The workflow and discussion that you provide should align with the qualities of the previous sections. Additionally, you are encouraged to include small visualizations, pseudocode, or diagrams to aid in describing the project design, but it is not required. The discussion should clearly outline your intended workflow of the capstone project.
+1. **Data understanding and cleaning:** The first step is to get a good overview of the provided data sets. Get information on the shape, size, and information provided. Moreover, the understanding should include the types of data and a general feeling about the distribution of respective dates. Once the provided data is understood, the cleansing begins. First, we identify missing values and decide threshold/strategies to identify and replace them for the customer and general population database.
+
+2. **Data transformation and preparation:** The cleaned data will be transformed, so the datasets can be used in a classification or segmentation model. This includes the encoding of categorical data and the overall normalization of all dates. Afterward, the transformed data will be used for further reduction steps (principal component analysis). The goal is to have a final dataset ready for the data modeling. All cleansing and transformation steps need to be able to be repeated for the consumer and for the general population data set for segmentation, and the campaign train and test dataset for the classification.
+
+3. **Data modeling and training**: The final preparation step marks the start of the model selection and training process for segmentation (e.g., MiniBatchKMeans) and classification (e.g., SGD Classifier). First, the model needs to initialized and respective (hyper)-parameters defined. Secondly, the respective model needs to be trained on the prepared datasets.
+
+4. **Data evaluation:** Once the training is finished, we analyze the respective model based on defined evaluation criteria. The evaluation is the basis for further model optimization and tuning.
+
+5. **Model optimization:** The evaluated model can be used for further hyperparameter tuning and data tuning to be able to reach a higher evaluation metric if needed. 
+
+6. **Data visualization:** Lastly, the results can be visualized, to interpret and present them to the recipients of the analysis (here the Arvato customer).
 
 -----------
 
@@ -108,7 +117,3 @@ In this final section, summarize a theoretical workflow for approaching a soluti
 <sup>6</sup> https://dl.acm.org/doi/10.5555/2968618.2968676
 <sup>7</sup> https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation
 <sup>8</sup> https://scikit-learn.org/stable/modules/model_evaluation.html#accuracy-score
-
-**Before submitting your proposal, ask yourself. . .**
-
-- Is each section (particularly **Solution Statement** and **Project Design**) written in a clear, concise and specific fashion? Are there any ambiguous terms or phrases that need clarification?
