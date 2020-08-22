@@ -53,16 +53,37 @@ The trained cluster model will be used on the customer dataset (which is transfo
 
 #### Classification/Prediction
 
+The key question of the second part of the analysis is: What are effective data transformation/classification approaches to have a stable and accurate prediction on the response rate of individuals on targeted marketing campaigns based on available potential customer demographic data. **The key challenge will be, that we will develop a classification/prediction engine with a very imbalanced dataset (most of the participants did not respond)**. Therefore, some steps in the data preparation will be done slightly differently to compensate for it.
 
-In this section, you will want to clearly define the problem that you are trying to solve, including the strategy (outline of tasks) you will use to achieve the desired solution. You should also thoroughly discuss what the intended solution will be for this problem. Questions to ask yourself when writing this section:
-- _Is the problem statement clearly defined? Will the reader understand what you are expecting to solve?_
-- _Have you thoroughly discussed how you will attempt to solve the problem?_
-- _Is an anticipated solution clearly defined? Will the reader understand what results you are looking for?_
+Similar to the first start of the exercise, the analysis will start with the task to understand the provided datasets. After that, we will do similar data cleansing and transformation steps. The data cleansing and transformation will start to replace the missing data, to remove columns with high missing values percentages, to transform categorical values, to remove rows with high missing values percentages, drop non-important columns, replace NaN values and normalize the dataset for a PCA analysis.
+
+The transformed dataset will be split in train and test dataset and then different classification algorithms (SVM, RandomForest,...) and over- and undersampling techniques will be used to train a sufficient classification/prediction model. The trained and evaluated models will be used on the TEST dataset for the KAGGLE competition.
 
 ### Metrics
-In this section, you will need to clearly define the metrics or calculations you will use to measure performance of a model or result in your project. These calculations and metrics should be justified based on the characteristics of the problem and problem domain. Questions to ask yourself when writing this section:
-- _Are the metrics you’ve chosen to measure the performance of your models clearly discussed and defined?_
-- _Have you provided reasonable justification for the metrics chosen based on the problem and solution?_
+
+To determine the effectiveness of the used method/model, both parts of the analysis have seperate evalution metrices:
+
+**Population/Customer Segmentation**: J. Kleinberg<sup>5</sup> defined three properties any clustering algorithm should try to satisfy: The axioms of scale invariance, richness, and consistency. He also proved an an impossibility theorem that shows that no clustering algorithm can simultaneously satisfy all of them. In our exercise we willl focus on finding the right number k (number of cluster) via the Elbow method and validated via Silhouette Coefficient, which is used as ground truth labels are not known and the evaluation must be performed using the model itself.
+
+ >The Silhouette Coefficient<sup>6</sup> is an example of such an evaluation, where a higher Silhouette Coefficient score relates to a model with better defined clusters. The Silhouette Coefficient is defined for each sample and is composed of two scores:
+ > * **a**: The mean distance between a sample and all other points in the same class.
+ > * **b**: The mean distance between a sample and all other points in the next nearest cluster.</br>
+ > The Silhouette Coefficient s for a single sample is then given as: <img src="https://render.githubusercontent.com/render/math?math=s = \frac{b - a}{max(a, b)}">
+
+**Classification/Prediction**: For the classification and prediction we will use the accuracy, precision, recall and AUC scores<sup>7</sup>:
+
+* **Accuracy**: Computes the accuracy, either the fraction (default) or the count (normalize=False) of correct predictions
+     <img src="https://render.githubusercontent.com/render/math?math=\texttt{accuracy}(y, \hat{y}) = \frac{1}{n_\text{samples}} \sum_{i=0}^{n_\text{samples}-1} 1(\hat{y}_i = y_i)">```
+* **Precision**: Precision is the ability of the classifier not to label as positive a sample that is negative
+    ```tp / (tp + fp)```
+* **Recall**:  Recall is the ability of the classifier to find all the positive samples
+    ```tp / (tp + fn)``` 
+* **AUC (Area Under the ROC Curve):** To better evaluate the correctness for the prediction of an inbalanced dataset, the incorporate the AUC mteric, which provides an aggregate measure of performance across all possible classification thresholds. One way of interpreting AUC is as the probability that the model ranks a random positive example more highly than a random negative example<sup>8, 9</sup>: <img src="https://render.githubusercontent.com/render/math?math=\frac{2}{c(c-1)}\sum_{j=1}^{c}\sum_{k > j}^c (\text{AUC}(j | k) +\text{AUC}(k | j))">
+
+ 
+  TP = True Positives; FP = False Positives; FN = False Negatives
+
+  
 
 
 ## II. Analysis
@@ -175,3 +196,9 @@ In this section, you will need to provide discussion as to how one aspect of the
 <sup>2</sup> https://www.experian.com/assets/marketing-services/white-papers/ccm-email-study-2013.pdf</br>
 <sup>3</sup> https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html</br>
 <sup>4</sup> https://scikit-learn.org/stable/modules/clustering.html#k-means</br>
+<sup>5</sup> https://dl.acm.org/doi/10.5555/2968618.2968676
+<sup>6</sup> https://scikit-learn.org/stable/modules/clustering.html#clustering-performance-evaluation
+<sup>7</sup> https://scikit-learn.org/stable/modules/model_evaluation.html#accuracy-score
+<sup>8</sup> https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
+<sup>9</sup> https://scikit-learn.org/stable/modules/model_evaluation.html#roc-metrics
+
