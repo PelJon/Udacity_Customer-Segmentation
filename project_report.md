@@ -83,18 +83,65 @@ To determine the effectiveness of the used method/model, both parts of the analy
  
   TP = True Positives; FP = False Positives; FN = False Negatives
 
-  
-
-
 ## II. Analysis
-_(approx. 2-4 pages)_
 
 ### Data Exploration
-In this section, you will be expected to analyze the data you are using for the problem. This data can either be in the form of a dataset (or datasets), input data (or input files), or even an environment. The type of data should be thoroughly described and, if possible, have basic statistics and information presented (such as discussion of input features or defining characteristics about the input or environment). Any abnormalities or interesting qualities about the data that may need to be addressed have been identified (such as features that need to be transformed or the possibility of outliers). Questions to ask yourself when writing this section:
-- _If a dataset is present for this problem, have you thoroughly discussed certain features about the dataset? Has a data sample been provided to the reader?_
-- _If a dataset is present for this problem, are statistics about the dataset calculated and reported? Have any relevant results from this calculation been discussed?_
-- _If a dataset is **not** present for this problem, has discussion been made about the input space or input data for your problem?_
-- _Are there any abnormalities or characteristics about the input space or dataset that need to be addressed? (categorical variables, missing values, outliers, etc.)_
+
+All four datasets for the analysis of  the German mail-order sales company customer have the basis of 366 different columns, which can be split into the following sections:
+
+1. **Personal information (43 columns)**: Information about the respective person in the dataset. This includes, e.g., information on age, gender, and typologies on financial characteristics, life stage, family, social status, and socioeconomic traits.
+
+2. **Household information (32 columns)**: Information about the household the person lives in. This includes, e.g., the number of people, the household structure, transactional activities, and the duration of residence.
+
+3. **Building & postcode and community information (19 columns)**: Information on the building the person lives in. This includes, e.g., the number of households, the type of building, car segments in the neighborhood, the distance from the city center or next metropole, inhabitants, and the share of unemployed persons in the community.
+
+4. **Microcell RR1_ID, RR4_ID & RR3_ID (67 columns)**: Information about a cluster the respective person falls in. This includes the CAMEO typology segmentation and other information like, e.g., the share of car owners in the respective cell, the number of trailers, the number of 1-2 family houses, purchasing power, moving patterns, and online affinity.
+
+5. **AZ Cluster data - 125m x 125m Grid (33 columns)**: Information on transactional data from the mail-order activities for a specific product group for a specific grid. Is based on data from AZ, which has access to 650 Million transaction data.
+
+6. **Postal code related statistics - PLZ8 (114)**: Based on federal German statistics on the postal code. Contains column-like, e.g., the share of car owners per type like BMW, the car engine power, and most-common car types.
+
+**Only for customer dataset**: The customer set has three additional columns "PRODUCT_GROUP, CUSTOMER_GROUP, ONLINE_PURCHASE" which gives information about the respective product group and online_purchase information.
+
+**Only for mailout train dataset**: The dataset has one additional column "REPONSE" to support the training of a supervised classificator.
+
+The datasets for Segmentation/Clustering exercise have the following characteristics:
+
+```
+Description about data types in population database:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 891221 entries, 0 to 891220
+Columns: 366 entries, LNR to ALTERSKATEGORIE_GROB
+dtypes: float64(267), int64(93), object(6)
+memory usage: 2.4+ GB
+None
+
+Description about data types in customer database:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 191652 entries, 0 to 191651
+Columns: 369 entries, LNR to ALTERSKATEGORIE_GROB
+dtypes: float64(267), int64(94), object(8)
+memory usage: 539.5+ MB
+None
+```
+
+Both datasets have categorical columns and a large set of data. One of the key challenges will be to reduce the number of input data so we can process it efficiently. None of the columns has more than one data type and columns are sorted in alphabetical order. A check for uniqueness of the values revealed, that only one column has more than 500 different data entries and is unique:
+
+````
+First impression of data LNR:
+0    910215
+1    910220
+2    910225
+3    910226
+4    910241
+Name: LNR, dtype: int64
+Column data types: int64
+Sum empty values (absolute/percentage): 0 / 0.0
+Rows values unique identifier (Length dataset vs. unique values): True
+````
+LNR is the index, which we can later use for the KAGGLE competition. A check-in the documentation revealed, that LNR acts as an ID number for each individual in the data partition. The second highest value distribution was in the column ["EINGEFUEGT_AM"]. As this is a piece of plain information on the last update/insert, we also exclude it for further analysis.
+
+**Note:** Some column information are described in more than one column in the dataset (e.g., no. of kids). Also additional columsn exist for the creation of the row, the last update and a unique identifier. Therefore, the number of columns per category do not exactly add up to 366 columns.
 
 ### Exploratory Visualization
 In this section, you will need to provide some form of visualization that summarizes or extracts a relevant characteristic or feature about the data. The visualization should adequately support the data being used. Discuss why this visualization was chosen and how it is relevant. Questions to ask yourself when writing this section:
