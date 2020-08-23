@@ -166,12 +166,16 @@ X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
 X_scaled = X_std * (max - min) + min
 ```
 3. df.fillna(df.mean()): Fill NA/NaN values using the medium of the specific column. Similar to: [SimpleImputer(strategy='mean')](https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html#sklearn.impute.SimpleImputer).
-4. [NaN_replace_KNNImputer(https://scikit-learn.org/stable/modules/generated/sklearn.impute.KNNImputer.html#sklearn.impute.KNNImputer)]: The KNNImputer class provides imputation for filling in missing values using the k-Nearest Neighbors approach. 
-5. PCA(): Principal component analysis (PCA) is a technique for reducing the dimensionality of large datasets, increasing interpretability but at the same time minimizing information loss. It does so by creating new uncorrelated variables that successively maximize variance.<sup>3</sup>
+4. [NaN_replace_KNNImputer](https://scikit-learn.org/stable/modules/generated/sklearn.impute.KNNImputer.html#sklearn.impute.KNNImputer)]: The KNNImputer class provides imputation for filling in missing values using the k-Nearest Neighbors approach. 
+5. [PCA()](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html?highlight=pca#sklearn.decomposition.PCA): Principal component analysis (PCA) is a technique for reducing the dimensionality of large datasets, increasing interpretability but at the same time minimizing information loss. It does so by creating new uncorrelated variables that successively maximize variance.<sup>3</sup>
 
 **Population/Customer Segmentation**
 
-6. KMeans()
+6. [KMeans()](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html?highlight=kmeans#sklearn.cluster.KMeans): The KMeans algorithm clusters data by trying to separate samples in n groups of equal variance, minimizing a criterion known as the inertia or within-cluster sum-of-squares This algorithm requires the number of clusters to be specified. It scales well to a large number of samples and has been used across a large range of application areas in many different fields<sup>4</sup>.
+
+The K-means algorithm aims to choose centroids that minimise the inertia, or within-cluster sum-of-squares criterion:
+
+<img src="https://render.githubusercontent.com/render/math?math=\sum_{i=0}^{n}\min_{\mu_j \in C}(||x_i - \mu_j||^2)">
 
 **Classification/Prediction**
 
@@ -192,14 +196,6 @@ In this section, you will need to discuss the algorithms and techniques you inte
 - _Is it made clear how the input data or datasets will be handled by the algorithms and techniques chosen?_
 
 https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
-
-
-> The KMeans algorithm clusters data by trying to separate samples in n groups of equal variance, minimizing a criterion known as the inertia or within-cluster sum-of-squares This algorithm requires the number of clusters to be specified. It scales well to a large number of samples and has been used across a large range of application areas in many different fields<sup>4</sup>.
-
-The K-means algorithm aims to choose centroids that minimise the inertia, or within-cluster sum-of-squares criterion:
-
- <img src="https://render.githubusercontent.com/render/math?math=\sum_{i=0}^{n}\min_{\mu_j \in C}(||x_i - \mu_j||^2)">
-
 
 ### Benchmark
 In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
