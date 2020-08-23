@@ -157,29 +157,34 @@ These features are partly redundant based on other features. Therefore, it will 
 
 ### Algorithms and Techniques
 
-The following algorithms and techniques were used for the Segmentation/Clustering as well as for the Classification/Prediction:
+The following algorithms/techniques were used for the Segmentation/Clustering and for the Classification/Prediction analysis:
 
-1. LabelEncoder()
-2. MinMaxScaler()
-3. df.fillna(df.mean())
-4. PCA()
+1. [LabelEncoder()](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html#sklearn.preprocessing.LabelEncoder): Used to transform non-numerical labels (as long as they are hashable and comparable) to numerical labels.
+2. [MinMaxScaler()](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html?highlight=minmaxscaler#sklearn.preprocessing.MinMaxScaler): This estimator scales and translates each feature individually such that it is in the given range on the training set, e.g. between zero and one. The transformation is given by:
+```python
+X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
+X_scaled = X_std * (max - min) + min
+```
+3. df.fillna(df.mean()): Fill NA/NaN values using the medium of the specific column. Similar to: [SimpleImputer(strategy='mean')](https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html#sklearn.impute.SimpleImputer).
+4. [NaN_replace_KNNImputer(https://scikit-learn.org/stable/modules/generated/sklearn.impute.KNNImputer.html#sklearn.impute.KNNImputer)]: The KNNImputer class provides imputation for filling in missing values using the k-Nearest Neighbors approach. 
+5. PCA(): Principal component analysis (PCA) is a technique for reducing the dimensionality of large datasets, increasing interpretability but at the same time minimizing information loss. It does so by creating new uncorrelated variables that successively maximize variance.<sup>3</sup>
 
 **Population/Customer Segmentation**
 
-5. KMeans()
+6. KMeans()
 
 **Classification/Prediction**
 
-6. SMOTE()
-7. RandomUnderSampler()
-8. LogisticRegression()
-9. GaussianNB()
-10. SVM()
-11. GaussianProcessClassifier()
-12. AdaBoost Classfier()
-13. BalancedRandomForestClassifier()
-14. GradientBoostingClassifier()
-15. RUSBoostClassifier()
+7. SMOTE()
+8. RandomUnderSampler()
+9. LogisticRegression()
+10. GaussianNB()
+11. SVM()
+12. GaussianProcessClassifier()
+13. AdaBoost Classfier()
+14. BalancedRandomForestClassifier()
+15. GradientBoostingClassifier()
+16. RUSBoostClassifier()
 
 In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
 - _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
@@ -187,8 +192,6 @@ In this section, you will need to discuss the algorithms and techniques you inte
 - _Is it made clear how the input data or datasets will be handled by the algorithms and techniques chosen?_
 
 https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
-
-> Principal component analysis (PCA) is a technique for reducing the dimensionality of large datasets, increasing interpretability but at the same time minimizing information loss. It does so by creating new uncorrelated variables that successively maximize variance.<sup>3</sup>
 
 
 > The KMeans algorithm clusters data by trying to separate samples in n groups of equal variance, minimizing a criterion known as the inertia or within-cluster sum-of-squares This algorithm requires the number of clusters to be specified. It scales well to a large number of samples and has been used across a large range of application areas in many different fields<sup>4</sup>.
