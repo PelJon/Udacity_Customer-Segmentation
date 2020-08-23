@@ -39,15 +39,7 @@ The data transformation will be done in multiple steps. First, we get an overvie
 
 After a data normalization step, the simplified German population dataset will be used for a PCA (principal component analysis), as it is a fast and flexible unsupervised method for dimensionality reduction in data. It involves zeroing out one or more of the smallest principal components, resulting in a lower-dimensional projection of the data that preserves the maximal data variance<sup>3</sup>.
 
-> Principal component analysis (PCA) is a technique for reducing the dimensionality of large datasets, increasing interpretability but at the same time minimizing information loss. It does so by creating new uncorrelated variables that successively maximize variance.<sup>3</sup>
-
 Once we reduced the noise and dimensions of the segmentation, we will train and optimize a **KMeans cluster algorithm** to detect customer segmentations.
-
-> The KMeans algorithm clusters data by trying to separate samples in n groups of equal variance, minimizing a criterion known as the inertia or within-cluster sum-of-squares This algorithm requires the number of clusters to be specified. It scales well to a large number of samples and has been used across a large range of application areas in many different fields<sup>4</sup>.
-
-The K-means algorithm aims to choose centroids that minimise the inertia, or within-cluster sum-of-squares criterion:
-
- <img src="https://render.githubusercontent.com/render/math?math=\sum_{i=0}^{n}\min_{\mu_j \in C}(||x_i - \mu_j||^2)">
  
 The trained cluster model will be used on the customer dataset (which is transformed in the same way as the general population database) to compare the percentages of people per cluster in both datasets. The trained cluster model will show the population cluster, which has a higher/lower percentage as the general Population representation and, therefore, more probably more likely to respond to future marketing/sales campaigns.
 
@@ -164,12 +156,47 @@ Number of columns with more than 25% missing values = 18
 These features are partly redundant based on other features. Therefore, it will be a good step to exclude them from further data cleansing and transformation process. Similar exercises were done for the MAILOUT train dataset for the prediction/clustering algorithm, which resulted in similar results.
 
 ### Algorithms and Techniques
+
+The following algorithms and techniques were used for the Segmentation/Clustering as well as for the Classification/Prediction:
+
+1. LabelEncoder()
+2. MinMaxScaler()
+3. df.fillna(df.mean())
+4. PCA()
+
+**Population/Customer Segmentation**
+
+5. KMeans()
+
+**Classification/Prediction**
+
+6. SMOTE()
+7. RandomUnderSampler()
+8. LogisticRegression()
+9. GaussianNB()
+10. SVM()
+11. GaussianProcessClassifier()
+12. AdaBoost Classfier()
+13. BalancedRandomForestClassifier()
+14. GradientBoostingClassifier()
+15. RUSBoostClassifier()
+
 In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
 - _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
 - _Are the techniques to be used thoroughly discussed and justified?_
 - _Is it made clear how the input data or datasets will be handled by the algorithms and techniques chosen?_
 
 https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
+
+> Principal component analysis (PCA) is a technique for reducing the dimensionality of large datasets, increasing interpretability but at the same time minimizing information loss. It does so by creating new uncorrelated variables that successively maximize variance.<sup>3</sup>
+
+
+> The KMeans algorithm clusters data by trying to separate samples in n groups of equal variance, minimizing a criterion known as the inertia or within-cluster sum-of-squares This algorithm requires the number of clusters to be specified. It scales well to a large number of samples and has been used across a large range of application areas in many different fields<sup>4</sup>.
+
+The K-means algorithm aims to choose centroids that minimise the inertia, or within-cluster sum-of-squares criterion:
+
+ <img src="https://render.githubusercontent.com/render/math?math=\sum_{i=0}^{n}\min_{\mu_j \in C}(||x_i - \mu_j||^2)">
+
 
 ### Benchmark
 In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
