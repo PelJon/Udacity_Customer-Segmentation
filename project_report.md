@@ -200,21 +200,88 @@ For the classification/prediction, the analysis tries a variety of different met
 11. [GridSearchCV()](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html): Hyper-parameters are parameters that are not directly learnt within estimators. In scikit-learn, they are passed as arguments to the constructor of the estimator classes. Typical examples include C, kernel, and gamma for Support Vector Classifier, alpha for Lasso, etc. It is possible and recommended to search the hyper-parameter space for the best cross-validation score. Any parameter provided when constructing an estimator may be optimized in this manner.
 
 ### Benchmark
-In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
-- _Has some result or value been provided that acts as a benchmark for measuring performance?_
-- _Is it clear how this result or value was obtained (whether by data or by hypothesis)?_
 
+A benchmark is best suited for the classification exercise to predict the success of a targeting marketing campaign. Similar exercises on Kaggle (see below) assume a prediction rate of 75% to 80% ROC score. That is what we will aim for in this exercise. Nevertheless, the analysis will show if we can achieve that with the imbalance of the dataset. The respective Kaggle competition in the exercise suggests between 75% and 80% RUC score.
+
+Similar Kaggle Notebooks/ Competitions:
+* https://www.kaggle.com/c/springleaf-marketing-response
+* https://www.kaggle.com/c/udacity-arvato-identify-customers/leaderboard
+
+## Population/Customer Segmentation
 
 ## III. Methodology
-_(approx. 3-5 pages)_
 
 ### Data Preprocessing
-In this section, all of your preprocessing steps will need to be clearly documented, if any were necessary. From the previous section, any of the abnormalities or characteristics that you identified about the dataset will be addressed and corrected here. Questions to ask yourself when writing this section:
-- _If the algorithms chosen require preprocessing steps like feature selection or feature transformations, have they been properly documented?_
-- _Based on the **Data Exploration** section, if there were abnormalities or characteristics that needed to be addressed, have they been properly corrected?_
-- _If no preprocessing is needed, has it been made clear why?_
+
+The following steps have been conducted to preprocess the data for the **Population/Customer Segmentation** exercise for both datasets.
+
+1. The first we need to do with the datasets is to **replace and handle missing values**. Therefore, we need to identify values that represent NaN and replace it. Moreover, we want to focus on dates that are filled more than 70% to be used in the dataset. Before we start the replacement we want to check if the datatypes in the respective column are the same. The following values were identified as wrongly placed NaN values:
+
+```
+zero_unkown_list = ['ALTER_HH', 'AGER_TYP', 'CJT_GESAMTTYP', 'HEALTH_TYP']
+XX_unkown_list = ['CAMEO_DEU_2015', 'CAMEO_DEUINTL_2015']
+overall_replace_values = [-1] #function replaces all values >= 0
+```
+2. Now that all values have been properly replaced with np. NaN values, we want to exclude the columns which have more than 25% NaN values. We save the values in a string to make sure that we, later on, drop the columns for the customer dataset as well:
+
+```
+['EINGEFUEGT_AM', 'LNR', 'ALTER_KIND4', 'ALTER_KIND3', 'ALTER_KIND2', 'ALTER_KIND1', 'AGER_TYP', 'EXTSEL992', 'KK_KUNDENTYP', 'ALTER_HH', 'ALTERSKATEGORIE_FEIN', 'D19_LETZTER_KAUF_BRANCHE', 'D19_SOZIALES', 'D19_VERSAND_ONLINE_QUOTE_12', 'D19_LOTTO', 'D19_KONSUMTYP', 'D19_TELKO_ONLINE_QUOTE_12', 'D19_BANKEN_ONLINE_QUOTE_12', 'D19_VERSI_ONLINE_QUOTE_12', 'D19_GESAMT_ONLINE_QUOTE_12']
+```
+
+Note: We added the unique identifier ['LNR'] and the update field ['EINGEFUEGT_AM'], as they have more than 50 categories and produce a lot of unnecessary noise in the overall clustering model.
+
+3. Next, we want to identify the values which are not **float** or **int**, and therefore will need some additional encoding. Looping through the types of columns result in the following dates:
+
+```
+['CAMEO_DEU_2015', 'CAMEO_DEUG_2015', 'CAMEO_INTL_2015', 'OST_WEST_KZ']
+```
+
+4. The categorical columns will be encoded with the Algorithm described LabelEncoder(). Note: A future improvement of the segmentation could be to encode them with OneHotEncoder, to reduce the possibility of connections between the data in a column by the clustering model. The problem is since there are different numbers in the same column, the model will misunderstand the data to be in some kind of order, 0 < 1 < 2. But this isn’t the case at all. To overcome this problem, we use One Hot Encoder.<sup>11</sup>
+
+5. The still-missing values will be filled via the KNNImputer and then normalized for the Principal Component Analysis. Before we start the analysis, a final check was conducted across the General Population dataset:
+
+```
+azdias_td_3.head(10)
+azdias_td_3.describe()
+```
+
+![Preprocessed Dataset 01](02_images/data_preprocess_1.PNG)
+![Preprocessed Dataset 02](02_images/data_preprocess_2.PNG)
+
+The datasets seem correct and can, therefore, be further processed via PCA. 
+
+**Note**: A further optimization potential is to further process columns with a very one-sided skewed data distribution or data with more than 40 categories to further reduce noise in the dataset for the clustering model.
+
+6. Next, a PCA() Principal component analysis was conducted. The following diagram shows the portion of variance explained by the number of components. The analysis suggets t gather around 85% to 95% of the variance. For the further segmentation analysis, 150 variables a composed explaining >90% of the variance of the dataset. The result of the PCA() is, that we could reduce the number of dimensions from 346 to 150 (which also simplifies the training) and were able to reduce the overall noice in the dataset.
+
+![PCA Analysis](02_images/PCA_analysis.png)
+
+```python
+# test cell
+n_top_components = 110 # select a value for the number of top components
+
+# calculate the explained variance
+exp_variance = hps.explained_variance(s, n_top_components)
+print('Explained variance: ', exp_variance)
+
+Explained variance:  0.8507474950159595
+```
+
+Moreover, to get a first insight in the dataset, we display the makeup of the first component, explaining the highest portion of variance:
+
+![PCA Component](02_images/weights_PCA_component_1.PNG)
+
+The composition of the PCA results in the final dataset, ready for the **Population/Customer Segmentation**:
+
+```
+azdias_td_cp_3.head(10)
+```
+![Final Segmentation Dataset](02_images/final_segmentation_dataset.PNG)
 
 ### Implementation
+
+- Split and Concat to make it processible
+
 In this section, the process for which metrics, algorithms, and techniques that you implemented for the given data will need to be clearly documented. It should be abundantly clear how the implementation was carried out, and discussion should be made regarding any complications that occurred during this process. Questions to ask yourself when writing this section:
 - _Is it made clear how the algorithms and techniques were implemented with the given datasets or input data?_
 - _Were there any complications with the original metrics or techniques that required changing prior to acquiring a solution?_
@@ -291,4 +358,5 @@ In this section, you will need to provide discussion as to how one aspect of the
 <sup>8</sup> https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
 <sup>9</sup> https://scikit-learn.org/stable/modules/model_evaluation.html#roc-metrics
 <sup>10</sup> https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html#tomek-links
+<sup>11</sup> https://medium.com/@contactsunny/label-encoder-vs-one-hot-encoder-in-machine-learning-3fc273365621
 
