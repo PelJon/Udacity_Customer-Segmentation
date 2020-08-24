@@ -179,23 +179,25 @@ The K-means algorithm aims to choose centroids that minimise the inertia, or wit
 
 **Classification/Prediction**
 
-7. SMOTE()
-8. RandomUnderSampler()
-9. LogisticRegression()
-10. GaussianNB()
-11. SVM()
-12. GaussianProcessClassifier()
-13. AdaBoost Classfier()
-14. BalancedRandomForestClassifier()
-15. GradientBoostingClassifier()
-16. RUSBoostClassifier()
 
-In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
-- _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
-- _Are the techniques to be used thoroughly discussed and justified?_
-- _Is it made clear how the input data or datasets will be handled by the algorithms and techniques chosen?_
+7. [SMOTETomek()](https://imbalanced-learn.readthedocs.io/en/stable/generated/imblearn.combine.SMOTETomek.html#imblearn.combine.SMOTETomek): Class to perform over-sampling using SMOTE and cleaning using Tomek links. TomekLinks detects the so-called Tomek’s links [T2010](https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html#t2010). A Tomek’s link between two samples of different class x and y is defined such that for any sample z:
 
-https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
+```
+d(x, y) < d(x, z) \text{ and } d(x, y) < d(y, z)
+```
+   where d(.) is the distance between the two samples. In some other words, a Tomek’s link exists if the two samples are the nearest neighbors of each other. In the figure below,   a Tomek’s link is illustrated by highlighting the samples of interest in green. The parameter **sampling_strategy** control which sample of the link will be removed.             <sup>10</sup>
+
+For the classification/prediction, the analysis tries a variety of different methods from different classification categories:
+
+8. **Linear Algorithms** - [LogisticRegression()](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html): Logistic regression, despite its name, is a linear model for classification rather than regression. Logistic regression is also known in the literature as logit regression, maximum-entropy classification (MaxEnt), or the log-linear classifier. In this model, the probabilities describing the possible outcomes of a single trial are modeled using a logistic function.
+9. **Ensemble Algorithms**:
+    1. [AdaBoost Classifier()](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html?highlight=adaboost#sklearn.ensemble.AdaBoostClassifier):     The core principle of AdaBoost is to fit a sequence of weak learners (i.e., models that are only slightly better than random guessings, such as small decision trees) on repeatedly modified versions of the data. The predictions from all of them are then combined through a weighted majority vote (or sum) to produce the final prediction.  
+    2. [BalancedRandomForestClassifier()](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html?highlight=randomforest#sklearn.ensemble.RandomForestClassifier): A random forest is a meta estimator that fits several decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the predictive accuracy and control over-fitting. 
+    3. [GradientBoostingClassifier()](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html?highlight=gradientboostingclassifier#sklearn.ensemble.GradientBoostingClassifier): Gradient Tree Boosting or Gradient Boosted Decision Trees (GBDT) is a generalization of boosting to arbitrary differentiable loss functions. GBDT is an accurate and effective off-the-shelf procedure that can be used for both regression and classification problems in a variety of areas including Web search ranking and ecology.
+    4. [RUSBoostClassifier():](https://imbalanced-learn.readthedocs.io/en/stable/generated/imblearn.ensemble.RUSBoostClassifier.html): RUSBoostClassifier randomly under-sample the dataset before to perform a boosting iteration [SKHN2010](https://sci2s.ugr.es/keel/pdf/algorithm/articulo/2010-IEEE%20TSMCpartA-RUSBoost%20A%20Hybrid%20Approach%20to%20Alleviating%20Class%20Imbalance.pdf).
+    5. [EasyEnsembleClassifier()](https://imbalanced-learn.readthedocs.io/en/stable/generated/imblearn.ensemble.EasyEnsembleClassifier.html#imblearn.ensemble.EasyEnsembleClassifier): A specific method which uses AdaBoost as learners in the bagging classifier is called EasyEnsemble. The EasyEnsembleClassifier allows a bag of AdaBoost learners who are trained on balanced bootstrap samples [LWZ2009](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.309.1465&rep=rep1&type=pdf).
+10. [StratifiedKFold](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html): KFold divides all the samples into k groups of samples, called folds (if k-1, this is equivalent to the Leave One Out strategy), of equal sizes (if possible). The prediction function is learned using k - 1 folds, and the fold left out is used for the test. StratifiedKFold is a variation of k-fold which returns stratified folds: each set contains approximately the same percentage of samples of each target class as the complete set.
+11. [GridSearchCV()](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html): Hyper-parameters are parameters that are not directly learnt within estimators. In scikit-learn, they are passed as arguments to the constructor of the estimator classes. Typical examples include C, kernel, and gamma for Support Vector Classifier, alpha for Lasso, etc. It is possible and recommended to search the hyper-parameter space for the best cross-validation score. Any parameter provided when constructing an estimator may be optimized in this manner.
 
 ### Benchmark
 In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
@@ -288,4 +290,5 @@ In this section, you will need to provide discussion as to how one aspect of the
 <sup>7</sup> https://scikit-learn.org/stable/modules/model_evaluation.html#accuracy-score
 <sup>8</sup> https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
 <sup>9</sup> https://scikit-learn.org/stable/modules/model_evaluation.html#roc-metrics
+<sup>10</sup> https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html#tomek-links
 
