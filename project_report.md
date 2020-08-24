@@ -294,6 +294,47 @@ The advancements have been laid out throughout the data processing process. Summ
 
 ### Model Evaluation and Validation
 
+Research suggests, that K-Means is the standard clustering and segmentation algorithm for big datasets<sup>12,13</sup>. Therefore, it was decided to use this algorithm for the exercise. To determine the number of clusters, the elbow method was used which runs k-means clustering on the dataset for a range of values for k (from 1-20) and then for each value of k computes an average score of inertia. Inertia gives the sum of squared distances of samples to their closest cluster center. To determine the optimal number of clusters, we have to select the value of k at the “elbow” ie the point after which the inertia starts decreasing linearly. Thus for the given data, we conclude that the optimal number of clusters for the data is **8**.
+
+```python
+#Find the right K Cluster
+wcss = []
+
+for i in range(1, 20):
+    kmeans = KMeans(n_clusters=i, init='k-means++', max_iter=300, n_init=10, random_state=0)
+    kmeans.fit(azdias_td_cp_3)
+    wcss.append(kmeans.inertia_)
+    
+plt.plot(range(1, 20), wcss)
+plt.title('Elbow Method')
+plt.xlabel('Number of clusters')
+plt.ylabel('WCSS')
+plt.show()
+```
+
+![Plot_Inertia_Cluster](02_images/cluster_intertia.PNG)
+
+The number of eight clusters is used to fit the model on the German population dataset:
+
+```python
+# The right value of K is - 8 is the number to go
+kmeans = KMeans(n_clusters=8, init='k-means++', max_iter=300, n_init=10, random_state=0)
+pred_y = kmeans.fit_predict(azdias_td_cp_3)
+ax = cluster_df.plot.bar(rot=0, color='blue')
+```
+![Population Distribution Cluster](02_images/population_distribution.png)
+
+The eight clusters have a fairly even distribution besides the cluster seven with a population size from 80.000 to 140.000. To better understand the composition of a cluster, the component/dimensions wit the highest variance across the eight clusters are displayed:
+
+![Population Distribution Cluster](02_images/cluster_composition.PNG)
+
+The plot shows the eight clusters on the x-axis and the variance of the respective components on the y-axis. For example, A high correlation with component 5 was the main factor for the distribution to cluster 7. The main 15 dimensions in the dataset were are the ones who explain the most variance among them. Components 5, 1, 2, and 7 play a significant role. They will be used to better explain the customer cluster, once they are mapped.
+
+Next, the customer dataset is transformed along with the data processing steps of the German population dataset and the KMeans model was used to determine the cluster for each person in the dataset. The following plot displays the absolute and percentage distribution for both datasets:
+
+![Population Distribution Cluster](02_images/Customer_Distribution.PNG)
+
+The percentage plot shows that cluster 2 and 5 are significantly overrepresented, while 
 
 
 
@@ -358,4 +399,6 @@ In this section, you will need to provide discussion as to how one aspect of the
 <sup>9</sup> https://scikit-learn.org/stable/modules/model_evaluation.html#roc-metrics
 <sup>10</sup> https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html#tomek-links
 <sup>11</sup> https://medium.com/@contactsunny/label-encoder-vs-one-hot-encoder-in-machine-learning-3fc273365621
+<sup>12</sup> https://hdbscan.readthedocs.io/en/latest/comparing_clustering_algorithms.html
+<sup>13</sup> https://towardsdatascience.com/the-5-clustering-algorithms-data-scientists-need-to-know-a36d136ef68
 
