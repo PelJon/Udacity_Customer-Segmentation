@@ -334,7 +334,9 @@ Next, the customer dataset is transformed along with the data processing steps o
 
 ![Population Distribution Cluster](02_images/Customer_Distribution.PNG)
 
-The percentage plot shows that cluster 2 and 5 are significantly overrepresented, while 
+The percentage plot shows that cluster 2 and 5 are significantly overrepresented, while cluster 4 is underrepresented.
+
+The most significant factor for cluster 2 is component 2. Looking at component two, we can see that it has a negative relationship with a number of "ANZ_Personen" and KBA05_MOD2 and positive relations with KBA05_ZUL1 and KBA_05_ZUL3. Therefore, one cluster of the customer is small households, which have a tendency for older cars, with low to medium quality. Cluster 5 is dominated by component 1, which strongly relates to higher-income persons from multi-level households, who own their own house, family and have a high purchasing power. 
 
 
 
