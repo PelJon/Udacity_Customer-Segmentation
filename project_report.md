@@ -347,7 +347,86 @@ The first analysis of the segments indicate differences in the customer base of 
 
 The following steps have been conducted to preprocess the data for the **Classification/Prediction** exercise for both datasets:
 
-1.) 
+1. The first step was to get a general overview of the dataset. We wanted to confirm the size, shape, and types of the mailout_train dataset and detect any main differences to the overall customer and general population dataset.
+
+```python
+> mailout_train.shape
+(42962, 367)
+
+> mailout_train.info()
+Description about data types in customer database:
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 42962 entries, 0 to 42961
+Columns: 367 entries, LNR to ALTERSKATEGORIE_GROB
+dtypes: float64(267), int64(94), object(6)
+memory usage: 120.3+ MB
+None
+```
+
+Overall the training set seems to have a similar shape and size of the other datasets (except rows). The column which was not in the German general population dataset was the row "RESPONSE". Let's have a look at the respective column. The graphic reveals that the classification will be on an imbalanced data set. Therefore, it focuses on ensemble models and data processing and evaluation techniques that enhance the prediction of rare events (e.g., roc_auc, oversampling, undersampling,...).
+
+```python
+First impression of data RESPONSE:
+0    0
+1    0
+2    0
+3    0
+4    0
+Name: RESPONSE, dtype: int64
+Column data types: int64
+Sum empty values (absolute/percentage): 0 / 0.0
+Rows values unique identifier (Length dataset vs. unique values): False
+0    42430
+1      532
+Name: RESPONSE, dtype: int64
+```
+
+![Imbalanced_Dataset](02_images/imb_data.png)
+
+2. Next, similar to the Segmentation, we remove all NaN values for the respective column-types based on the documentation and remove all columns which are more than 25% filled with NaN values. This results in the drop of the following columns:
+
+```python
+['D19_TELKO_ONLINE_QUOTE_12', 'ALTER_KIND4', 'ALTER_KIND3', 'TITEL_KZ', 'ANZ_TITEL', 'ALTER_KIND2', 'ALTER_KIND1', 'KBA05_ANTG4', 'KBA13_ANTG4', 'PLZ8_ANTG4', 'KK_KUNDENTYP', 'KBA05_BAUMAX', 'AGER_TYP', 'EXTSEL992', 'ALTER_HH'],
+```
+
+3. Moreover, we dropped the columns which do not give a additional information or have a high amount of different values:
+
+```python
+["EINGEFUEGT_AM", "LNR", "D19_LETZTER_KAUF_BRANCHE"]
+```
+
+4. The object like columns (['CAMEO_DEU_2015', 'CAMEO_DEUG_2015', 'CAMEO_INTL_2015', 'OST_WEST_KZ']) were first harmonized and then a OneHotEncoder was used to give each date a seperate column. This was done, so a later model would not see the scaled and normalized value as sequence and interprets the value 2 as higher than values 1.
+
+5. Next, we removed all columns with a correlation with one another column higher than 95%. This was done to reduce the noise and simplify the data. No information got lost, as the columns were so similar that the respective correlating columns can carry on the contained information. The correlation matrix revealed a drop of the following columns and a resulted shape of the dataset:
+
+```python
+['ANZ_STATISTISCHE_HAUSHALTE', 'KBA13_HERST_SONST', 'KBA13_KMH_250', 'LP_FAMILIE_GROB', 'LP_LEBENSPHASE_FEIN', 'LP_LEBENSPHASE_GROB', 'LP_STATUS_GROB', 'PLZ8_GBZ', 'PLZ8_HHZ']
+
+> mailout_train_v6.shape
+(42962, 380)
+```
+6. Before the start of the normalization and scaling, the "RESPONSE" columns were split from the overall database to secure the correctness of it throughout the data normalization process. Then the columns were split into binary categories and numerical categories. The numerical categories were encoded with a KNNImputer, while the Binary categories were encoded with a SimpleImputer with the strategy "most frequent value". Afterward, the numerical values were normalized with a StndardScaler. The imputer and scaler were saved for the later processing of the mailout_testdata set. This is to secure that both sets undergo the same normalization (e.g., same MinMax ranges). 
+
+![Imbalanced_Dataset](02_images/final_dataset_classification.PNG)
+
+7. The preprocessed dataset was the basis for a PCA and respective reduction. The later training of the models showed early on, that the dataset without PCA performs better than with PCA. Therefore, we left the PCA out of the documentation.
+
+### Implementation
+
+The implementation was easy to conduct after the segmentation/clustering analysis. No further points to add.
+
+### Refinement
+
+The following refinements could be done in the future to further enhance the data basis for the training of the models:
+1. Further feature generation (e.g., use clustering as an additional dimension)
+2. Reduce the noise of the dataset and exclude columns with skewed distribution
+3. Reduce rows with a high NaN percentage in the training dataset
+
+## IV. Results
+
+### Model Evaluation and Validation
+
+STOP HERE
 
 ## V. Conclusion (Population/Customer Segmentation & Classification/Prediction)
 _(approx. 1-2 pages)_
