@@ -57,11 +57,6 @@ To determine the effectiveness of the used method/model, both parts of the analy
 
 **Population/Customer Segmentation**: J. Kleinberg<sup>5</sup> defined three properties any clustering algorithm should try to satisfy: The axioms of scale invariance, richness, and consistency. He also proved an an impossibility theorem that shows that no clustering algorithm can simultaneously satisfy all of them. In our exercise we willl focus on finding the right number k (number of cluster) via the Elbow method and validated via Silhouette Coefficient, which is used as ground truth labels are not known and the evaluation must be performed using the model itself.
 
- >The Silhouette Coefficient<sup>6</sup> is an example of such an evaluation, where a higher Silhouette Coefficient score relates to a model with better defined clusters. The Silhouette Coefficient is defined for each sample and is composed of two scores:
- > * **a**: The mean distance between a sample and all other points in the same class.
- > * **b**: The mean distance between a sample and all other points in the next nearest cluster.</br>
- > The Silhouette Coefficient s for a single sample is then given as: <img src="https://render.githubusercontent.com/render/math?math=s = \frac{b - a}{max(a, b)}">
-
 **Classification/Prediction**: For the classification and prediction we will use the accuracy, precision, recall and AUC scores<sup>7</sup>:
 
 * **Accuracy**: Computes the accuracy, either the fraction (default) or the count (normalize=False) of correct predictions
@@ -72,7 +67,6 @@ To determine the effectiveness of the used method/model, both parts of the analy
     ```tp / (tp + fn)``` 
 * **AUC (Area Under the ROC Curve):** To better evaluate the correctness for the prediction of an inbalanced dataset, the incorporate the AUC mteric, which provides an aggregate measure of performance across all possible classification thresholds. One way of interpreting AUC is as the probability that the model ranks a random positive example more highly than a random negative example<sup>8, 9</sup>: <img src="https://render.githubusercontent.com/render/math?math=\frac{2}{c(c-1)}\sum_{j=1}^{c}\sum_{k > j}^c (\text{AUC}(j | k) +\text{AUC}(k | j))">
 
- 
   TP = True Positives; FP = False Positives; FN = False Negatives
 
 ## II. Analysis
@@ -179,7 +173,6 @@ The K-means algorithm aims to choose centroids that minimise the inertia, or wit
 
 **Classification/Prediction**
 
-
 7. [SMOTETomek()](https://imbalanced-learn.readthedocs.io/en/stable/generated/imblearn.combine.SMOTETomek.html#imblearn.combine.SMOTETomek): Class to perform over-sampling using SMOTE and cleaning using Tomek links. TomekLinks detects the so-called Tomek’s links [T2010](https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html#t2010). A Tomek’s link between two samples of different class x and y is defined such that for any sample z:
 
 ```
@@ -207,9 +200,9 @@ Similar Kaggle Notebooks/ Competitions:
 * https://www.kaggle.com/c/springleaf-marketing-response
 * https://www.kaggle.com/c/udacity-arvato-identify-customers/leaderboard
 
-## Population/Customer Segmentation
-
 ## III. Methodology
+
+## Population/Customer Segmentation
 
 ### Data Preprocessing
 
@@ -334,26 +327,29 @@ Next, the customer dataset is transformed along with the data processing steps o
 
 ![Population Distribution Cluster](02_images/Customer_Distribution.PNG)
 
-The percentage plot shows that cluster 2 and 5 are significantly overrepresented, while cluster 4 is underrepresented.
+The percentage plot shows that cluster 3 and 4 are significantly overrepresented, while cluster 0 and 1 are underrepresented.
 
-The most significant factor for cluster 2 is component 2. Looking at component two, we can see that it has a negative relationship with a number of "ANZ_Personen" and KBA05_MOD2 and positive relations with KBA05_ZUL1 and KBA_05_ZUL3. Therefore, one cluster of the customer is small households, which have a tendency for older cars, with low to medium quality. Cluster 5 is dominated by component 1, which strongly relates to higher-income persons from multi-level households, who own their own house, family and have a high purchasing power. 
+A positive correlation for the components 1 and 2 are the major factor for cluster 3 and 4. The next figure shows the dimensions with the highest correlations with components 1 and 2. The positive correlations lead to the interpretation that the mail-order companies' clients are normally well-off families with multiple persons in their household, a medium to high income. The customer is of the older generation and are normally more traditional/save money.
 
+![Overrepresented](02_images/corr_1.png)
 
+The mirror in some aspects the opposite of cluster 0 and 1. Looking closer at the additional component 7 for cluster 2, the mail-order company is less represented in areas with significantly more households, which would mean also less income / single house-owner. Moreover, the number of high inhabitants leads to the conclusion that these are more often people from urban areas, with a lower age.
 
-In this section, the final model and any supporting qualities should be evaluated in detail. It should be clear how the final model was derived and why this model was chosen. In addition, some type of analysis should be used to validate the robustness of this model and its solution, such as manipulating the input data or environment to see how the model’s solution is affected (this is called sensitivity analysis). Questions to ask yourself when writing this section:
-- _Is the final model reasonable and aligning with solution expectations? Are the final parameters of the model appropriate?_
-- _Has the final model been tested with various inputs to evaluate whether the model generalizes well to unseen data?_
-- _Is the model robust enough for the problem? Do small perturbations (changes) in training data or the input space greatly affect the results?_
-- _Can results found from the model be trusted?_
+![Underrepresented](02_images/corr_2.png)
 
 ### Justification
-In this section, your model’s final solution and its results should be compared to the benchmark you established earlier in the project using some type of statistical analysis. You should also justify whether these results and the solution are significant enough to have solved the problem posed in the project. Questions to ask yourself when writing this section:
-- _Are the final results found stronger than the benchmark result reported earlier?_
-- _Have you thoroughly analyzed and discussed the final solution?_
-- _Is the final solution significant enough to have solved the problem?_
 
+The first analysis of the segments indicate differences in the customer base of the mail-order company. A further enhancement of the clusters could be used to personalize their marketing activities. Further enhancements, which are listed in the improvement section, are possible.
 
-## V. Conclusion
+## Classification/Prediction
+
+### Data Preprocessing
+
+The following steps have been conducted to preprocess the data for the **Classification/Prediction** exercise for both datasets:
+
+1.) 
+
+## V. Conclusion (Population/Customer Segmentation & Classification/Prediction)
 _(approx. 1-2 pages)_
 
 ### Free-Form Visualization
