@@ -13,7 +13,6 @@ The main analysis was conducted with a Jupyter Notebook in a conda environment. 
 
 The main libraries used were:
 
-# import libraries here; add more as necessary
 * Numpy (1.19.1)
 * threadpoolctl (2.1.0)
 * SKlearn (0.23.2)
@@ -35,7 +34,6 @@ Anaconda should provide essential libraries. XGBoost, graphviz, imbalanced has t
 ## 2. File Description and Folder Structure
 
 ```
-.
 ├── 01_proposal
 │   └── capstone_proposal.md -----------------------------# PROVIDES THE INITIAL PROPOSAL ABOUT THE ANALYSIS, STEPS, ALGORITHM USED,....
 ├── 02_images --------------------------------------------# PROVIDES THE IMAGES USED IN THE PROPOSAL AND IN THE PROJECT REPORT
