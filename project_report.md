@@ -491,11 +491,16 @@ parameters = {'learning_rate': [0.1, 0.2], 'n_estimators': [25, 50, 100, 250],
               'max_depth': [3, 5], 'min_samples_split': [2, 4]}
 ```
 
-#MODEL LEFT WORK TO DO
+The optimized model had the following result and parameters, which were afterward used on the test dataset for the Kaggle competition.
+
+```
+Best parameter (CV score=0.762):
+{'learning_rate': 0.1, 'max_depth': 3, 'min_samples_split': 2, 'n_estimators': 25}
+```
 
 The test set for the Kaggle competition was prepared similar to the train set. The same columns were dropped and the saved weights of the Imputer and Scaler were used to ensure the similarity in the data preprocessing process between train and test set.
 
-The LNR column was used as an identifier and the probability of each person to RESPONSE (=1) was attached as second column. Both models were submitted with a result of 0.79326 AUC score, which is slightly lower then the current optimum of 0.81063 AUC score.
+The LNR column was used as an identifier and the probability of each person to RESPONSE (=1) was attached as the second column. Both models were submitted with a result of 0.79326 AUC score for the XGBoost algorithm and 0.79672 for the GradientBoosting algorithm, which is slightly lower than the current optimum of 0.81063 AUC score.
 
 ## V. Conclusion (Population/Customer Segmentation & Classification/Prediction)
 
