@@ -49,7 +49,7 @@ Anaconda should provide essential libraries. XGBoost, graphviz, imbalanced has t
 ├── README.md --------------------------------------------# README FILE PROVIDING GENERAL INFORMATION ON REPOSITORY STRUCTURE AND INSTALLATION REQUIREMENTS
 ├── helper_classification.py -----------------------------# HELPER FUNCTIONS TO PROCESS, VISUALIZE AND TRAIN SUPERVISED LEARNING MODEL AND CONNECTED DATASETS
 ├── helper_segmentation.py -------------------------------# HELPER FUNCTIONS TO PROCESS, VISUALIZE AND TRAIN UNSUPERVISED LEARNING MODEL AND CONNECTED DATASETS
-├── project_report.md ------------------------------------# DETAILED DOCUMENTATION OF ANALYSIS RESULTS INCL. VISUALIZATIONS AND INTERPRETATION 
+└── project_report.md ------------------------------------# DETAILED DOCUMENTATION OF ANALYSIS RESULTS INCL. VISUALIZATIONS AND INTERPRETATION 
 ```
 
 <a name="res"></a>
