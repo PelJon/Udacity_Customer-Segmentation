@@ -153,8 +153,8 @@ These features are partly redundant based on other features. Therefore, it will 
 
 The following algorithms/techniques were used for the Segmentation/Clustering and for the Classification/Prediction analysis:
 
-1. [LabelEncoder()](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html#sklearn.preprocessing.LabelEncoder): Used to transform non-numerical labels (as long as they are hashable and comparable) to numerical labels.
-2. [MinMaxScaler()](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html?highlight=minmaxscaler#sklearn.preprocessing.MinMaxScaler): This estimator scales and translates each feature individually such that it is in the given range on the training set, e.g. between zero and one. The transformation is given by:
+1. [LabelEncoder() / OneHotEncoder()](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html#sklearn.preprocessing.LabelEncoder): Used to transform non-numerical labels (as long as they are hashable and comparable) to numerical labels.
+2. [MinMaxScaler() / StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html?highlight=minmaxscaler#sklearn.preprocessing.MinMaxScaler): This estimator scales and translates each feature individually such that it is in the given range on the training set, e.g. between zero and one. The transformation is given by:
 ```python
 X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
 X_scaled = X_std * (max - min) + min
@@ -173,22 +173,12 @@ The K-means algorithm aims to choose centroids that minimise the inertia, or wit
 
 **Classification/Prediction**
 
-7. [SMOTETomek()](https://imbalanced-learn.readthedocs.io/en/stable/generated/imblearn.combine.SMOTETomek.html#imblearn.combine.SMOTETomek): Class to perform over-sampling using SMOTE and cleaning using Tomek links. TomekLinks detects the so-called Tomek’s links [T2010](https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html#t2010). A Tomek’s link between two samples of different class x and y is defined such that for any sample z:
+For the classification/prediction, the analysis tries two different algorithms:
 
-```
-d(x, y) < d(x, z) \text{ and } d(x, y) < d(y, z)
-```
-   where d(.) is the distance between the two samples. In some other words, a Tomek’s link exists if the two samples are the nearest neighbors of each other. In the figure below,   a Tomek’s link is illustrated by highlighting the samples of interest in green. The parameter **sampling_strategy** control which sample of the link will be removed.             <sup>10</sup>
+8. **Ensemble Algorithms**:
+    1. [GradientBoostingClassifier()](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html?highlight=gradientboostingclassifier#sklearn.ensemble.GradientBoostingClassifier): Gradient Tree Boosting or Gradient Boosted Decision Trees (GBDT) is a generalization of boosting to arbitrary differentiable loss functions. GBDT is an accurate and effective off-the-shelf procedure that can be used for both regression and classification problems in a variety of areas including Web search ranking and ecology.
+    2. [XGBoost():](https://xgboost.readthedocs.io/en/latest/): XGBoost is an optimized distributed gradient boosting library designed to be highly efficient, flexible and portable. It implements machine learning algorithms under the Gradient Boosting framework. XGBoost provides a parallel tree boosting (also known as GBDT, GBM) that solve many data science problems in a fast and accurate way.<sup>10</sup>
 
-For the classification/prediction, the analysis tries a variety of different methods from different classification categories:
-
-8. **Linear Algorithms** - [LogisticRegression()](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html): Logistic regression, despite its name, is a linear model for classification rather than regression. Logistic regression is also known in the literature as logit regression, maximum-entropy classification (MaxEnt), or the log-linear classifier. In this model, the probabilities describing the possible outcomes of a single trial are modeled using a logistic function.
-9. **Ensemble Algorithms**:
-    1. [AdaBoost Classifier()](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html?highlight=adaboost#sklearn.ensemble.AdaBoostClassifier):     The core principle of AdaBoost is to fit a sequence of weak learners (i.e., models that are only slightly better than random guessings, such as small decision trees) on repeatedly modified versions of the data. The predictions from all of them are then combined through a weighted majority vote (or sum) to produce the final prediction.  
-    2. [BalancedRandomForestClassifier()](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html?highlight=randomforest#sklearn.ensemble.RandomForestClassifier): A random forest is a meta estimator that fits several decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the predictive accuracy and control over-fitting. 
-    3. [GradientBoostingClassifier()](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html?highlight=gradientboostingclassifier#sklearn.ensemble.GradientBoostingClassifier): Gradient Tree Boosting or Gradient Boosted Decision Trees (GBDT) is a generalization of boosting to arbitrary differentiable loss functions. GBDT is an accurate and effective off-the-shelf procedure that can be used for both regression and classification problems in a variety of areas including Web search ranking and ecology.
-    4. [RUSBoostClassifier():](https://imbalanced-learn.readthedocs.io/en/stable/generated/imblearn.ensemble.RUSBoostClassifier.html): RUSBoostClassifier randomly under-sample the dataset before to perform a boosting iteration [SKHN2010](https://sci2s.ugr.es/keel/pdf/algorithm/articulo/2010-IEEE%20TSMCpartA-RUSBoost%20A%20Hybrid%20Approach%20to%20Alleviating%20Class%20Imbalance.pdf).
-    5. [EasyEnsembleClassifier()](https://imbalanced-learn.readthedocs.io/en/stable/generated/imblearn.ensemble.EasyEnsembleClassifier.html#imblearn.ensemble.EasyEnsembleClassifier): A specific method which uses AdaBoost as learners in the bagging classifier is called EasyEnsemble. The EasyEnsembleClassifier allows a bag of AdaBoost learners who are trained on balanced bootstrap samples [LWZ2009](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.309.1465&rep=rep1&type=pdf).
 10. [StratifiedKFold](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.StratifiedKFold.html): KFold divides all the samples into k groups of samples, called folds (if k-1, this is equivalent to the Leave One Out strategy), of equal sizes (if possible). The prediction function is learned using k - 1 folds, and the fold left out is used for the test. StratifiedKFold is a variation of k-fold which returns stratified folds: each set contains approximately the same percentage of samples of each target class as the complete set.
 11. [GridSearchCV()](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html): Hyper-parameters are parameters that are not directly learnt within estimators. In scikit-learn, they are passed as arguments to the constructor of the estimator classes. Typical examples include C, kernel, and gamma for Support Vector Classifier, alpha for Lasso, etc. It is possible and recommended to search the hyper-parameter space for the best cross-validation score. Any parameter provided when constructing an estimator may be optimized in this manner.
 
@@ -426,41 +416,102 @@ The following refinements could be done in the future to further enhance the dat
 
 ### Model Evaluation and Validation
 
-STOP HERE
+Both algorithms (GradientBoosting, XGBoost) were tested on the provided dataset. Both algorithms were tested on a dataset with PCA (99% Variance) and one without any decompression. The result showed, that the classifier performed better on the dataset without PCA. For all of the algorithms a cross-validation algorithm was used with the following settings:
+
+```
+StratifiedKFold(n_splits=10, shuffle=True, random_state=1)
+
+> XGBoost without PCA - Mean ROC AUC: 0.68153
+> GradientBoosting without PCA - Mean ROC AUC: 0.76180
+
+> XGBoost with PCA - Mean ROC AUC: 0.56908
+> GradientBoosting with PCA - Mean ROC AUC: 0.58091    
+```
+
+The first algorithm to optimize is XGBoost classifier. First, we run a fit algorithm with the parameter early_stopping_rounds = 20, to determine the optimal number of boosting rounds. The result indicates the optimum at an early iteration. In this example 3.
+
+The algorithm is trained with the initial parameters: 
+
+````
+xgb_parameter = {"max_depth" : 3,
+                 "subsample": 1,
+                 "colsample_bytree" : 0.5,
+                 "gamma": 0,
+                 "scale_pos_weight": 10,
+                 "eval_metric": ['auc'],
+                 "objective" : 'binary:logistic'}
+````
+The cross-validated model with the described set of parameters results in the following scores:
+
+```
+Model Report
+Accuracy : 0.9876
+AUC Score (Train): 0.830278
+   train-auc-mean  train-auc-std  test-auc-mean  test-auc-std
+0        0.777434       0.001387       0.755182      0.016064
+1        0.782917       0.002465       0.750948      0.020557
+2        0.791239       0.006767       0.751510      0.027002
+3        0.796648       0.004736       0.756218      0.028547
+4        0.798753       0.005455       0.750835      0.032309
+5        0.807478       0.002928       0.758404      0.024268
+6        0.812897       0.002369       0.758292      0.025169
+7        0.819175       0.003995       0.758648      0.024433
+8        0.822109       0.004266       0.759427      0.021975
+9        0.827505       0.002929       0.760905      0.021008
+````
+
+The set of parameters are the basis for hyperparameter optimization. First, the parameter max_depth and min_child_weight are optimized. Then subsample and colsample_bytree. The end of the optimization is eta, gamma, and reg_alpha. A description of each of the parameters can be found [here](https://xgboost.readthedocs.io/en/latest/parameter.html).
+
+The hyperparameter optimization result in the following dictionary:
+
+```
+{'max_depth': 3, 'subsample': 0.6, 'colsample_bytree': 0.7, 'gamma': 0.0, 'scale_pos_weight': 10, 'eval_metric': ['auc'], 'objective': 'binary:logistic', 'min_child_weight': 1, 'eta': 0.1, 'reg_alpha': 0.005}
+```
+
+The model achieves the following results with cross-validation, early_stopping and described parameters:
+
+```
+Stopping. Best iteration:
+[27]	validation_0-auc:0.83979	validation_1-auc:0.76994
+
+
+Model Report
+Accuracy : 0.9876
+AUC Score (Train): 0.817078
+```
+
+![Imbalanced_Dataset](02_images/XGBoost_trained.png)
+
+The above figure shows the depth and structure of the trained XGBoost Classifier.
+
+The optimization of the GradientBoosting Classifier suggests an optimal set of estimator rounds at iteration 23. The model was then optimized with the following set of hyperparameters:
+
+```
+parameters = {'learning_rate': [0.1, 0.2], 'n_estimators': [25, 50, 100, 250], 
+              'max_depth': [3, 5], 'min_samples_split': [2, 4]}
+```
+
+#MODEL LEFT WORK TO DO
+
+The test set for the Kaggle competition was prepared similar to the train set. The same columns were dropped and the saved weights of the Imputer and Scaler were used to ensure the similarity in the data preprocessing process between train and test set.
+
+The LNR column was used as an identifier and the probability of each person to RESPONSE (=1) was attached as second column. Both models were submitted with a result of 0.79326 AUC score, which is slightly lower then the current optimum of 0.81063 AUC score.
 
 ## V. Conclusion (Population/Customer Segmentation & Classification/Prediction)
-_(approx. 1-2 pages)_
 
 ### Free-Form Visualization
-In this section, you will need to provide some form of visualization that emphasizes an important quality about the project. It is much more free-form, but should reasonably support a significant result or characteristic about the problem that you want to discuss. Questions to ask yourself when writing this section:
-- _Have you visualized a relevant or important quality about the problem, dataset, input data, or results?_
-- _Is the visualization thoroughly analyzed and discussed?_
-- _If a plot is provided, are the axes, title, and datum clearly defined?_
+
+The following figure shows the top 20 leading factors for the trained XGBoost Classifier in ascending order. As shown in the figure, D19_SOZIALES seems to be a major factor to predict the response.
+
+![Imbalanced_Dataset](02_images/feature_importance_XGBoost_classifier.PNG))
 
 ### Reflection
-In this section, you will summarize the entire end-to-end problem solution and discuss one or two particular aspects of the project you found interesting or difficult. You are expected to reflect on the project as a whole to show that you have a firm understanding of the entire process employed in your work. Questions to ask yourself when writing this section:
-- _Have you thoroughly summarized the entire process you used for this project?_
-- _Were there any interesting aspects of the project?_
-- _Were there any difficult aspects of the project?_
-- _Does the final model and solution fit your expectations for the problem, and should it be used in a general setting to solve these types of problems?_
+
+The exercise included a variety of algorithms, techniques, and optimization challenges for supervised and unsupervised machine learning models. Especially in combination with large datasets and imbalanced data, the exercise was a useful final project to dive deep into the topic and try a bunch of different approaches.  Even though the final result of the analysis is compatible and meets the above-described benchmark, the model is improvable and other methods could be used to improve the analysis in the future.
 
 ### Improvement
-In this section, you will need to provide discussion as to how one aspect of the implementation you designed could be improved. As an example, consider ways your implementation can be made more general, and what would need to be modified. You do not need to make this improvement, but the potential solutions resulting from these changes are considered and compared/contrasted to your current solution. Questions to ask yourself when writing this section:
-- _Are there further improvements that could be made on the algorithms or techniques you used in this project?_
-- _Were there algorithms or techniques you researched that you did not know how to implement, but would consider using if you knew how?_
-- _If you used your final solution as the new benchmark, do you think an even better solution exists?_
 
------------
-
-**Before submitting, ask yourself. . .**
-
-- Does the project report you’ve written follow a well-organized structure similar to that of the project template?
-- Is each section (particularly **Analysis** and **Methodology**) written in a clear, concise and specific fashion? Are there any ambiguous terms or phrases that need clarification?
-- Would the intended audience of your project be able to understand your analysis, methods, and results?
-- Have you properly proof-read your project report to assure there are minimal grammatical and spelling mistakes?
-- Are all the resources used for this project correctly cited and referenced?
-- Is the code that implements your solution easily readable and properly commented?
-- Does the code execute without error and produce results similar to those reported?
+There are a variety of improvements one could take for the classifier in the future. One idea would be to use the customer and general population dataset for the classification exercise. Moreover, one could use typical tools to work with imbalanced data such as over- and undersampling. Lastly, the process of feature selection and generation could be enhanced to further reduce the noise in the dataset and stabilize the prediction of probabilities for the test set. This would require further analysis of the feature importance and the setup in each tree-element of the XGBoost classifier.
 
 -----------
 
@@ -474,7 +525,7 @@ In this section, you will need to provide discussion as to how one aspect of the
 <sup>7</sup> https://scikit-learn.org/stable/modules/model_evaluation.html#accuracy-score
 <sup>8</sup> https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc
 <sup>9</sup> https://scikit-learn.org/stable/modules/model_evaluation.html#roc-metrics
-<sup>10</sup> https://imbalanced-learn.readthedocs.io/en/stable/under_sampling.html#tomek-links
+<sup>10</sup> https://xgboost.readthedocs.io/en/latest/
 <sup>11</sup> https://medium.com/@contactsunny/label-encoder-vs-one-hot-encoder-in-machine-learning-3fc273365621
 <sup>12</sup> https://hdbscan.readthedocs.io/en/latest/comparing_clustering_algorithms.html
 <sup>13</sup> https://towardsdatascience.com/the-5-clustering-algorithms-data-scientists-need-to-know-a36d136ef68
